@@ -109,7 +109,7 @@ $select = $null
 
 #Prepare variables related to user Documents folder
 $userName = $env:USERNAME
-$docFolder = 'C:\Users\' + $userName + '\Downloads\DZ_SA\DayZ_Server'
+$docFolder = 'C:\Users\' + $userName + '\Downloads\DayZ_standalone\DayZ_Server'
 $steamDoc = $docFolder + '\SteamCmdPath.txt'
 $modListPath = $docFolder + '\modListPath.txt'
 $serverModListPath = $docFolder + '\serverModListPath.txt'
@@ -130,15 +130,15 @@ $loadMods = $null
 #Main menu
 function Menu {
 
-	echo "`n"
-	echo "Menu:"
-	echo "1) Server update"
-	echo "2) Mod update"
-	echo "3) Start server"
-	echo "4) Stop running server"
-	echo "5) Uninstall/Remove saved"
-	echo "6) Exit"
-	echo "`n"
+	Write-Output "`n"
+	Write-Output "Menu:"
+	Write-Output "1) Server update"
+	Write-Output "2) Mod update"
+	Write-Output "3) Start server"
+	Write-Output "4) Stop running server"
+	Write-Output "5) Uninstall/Remove saved"
+	Write-Output "6) Exit"
+	Write-Output "`n"
 
 	$select = Read-Host -Prompt 'Please select desired action from menu above'
 	
@@ -146,9 +146,9 @@ function Menu {
         {
             #Call server update and related functions
             1 {
-                echo "`n"
-			    echo "Server update selected"
-			    echo "`n"
+                Write-Output "`n"
+			    Write-Output "Server update selected"
+			    Write-Output "`n"
 			
 			    SteamCMDFolder
 			    SteamCMDExe
@@ -161,9 +161,9 @@ function Menu {
 
             #Call mods update and related functions
             2 {
-                echo "`n"
-				echo "Mod update selected"
-				echo "`n"
+                Write-Output "`n"
+				Write-Output "Mod update selected"
+				Write-Output "`n"
 						
 				SteamCMDFolder
 				SteamCMDExe
@@ -176,9 +176,9 @@ function Menu {
 
             #Start DayZ server
             3 {
-                echo "`n"
-				echo "Start server selected"
-				echo "`n"
+                Write-Output "`n"
+				Write-Output "Start server selected"
+				Write-Output "`n"
 								
 				SteamCMDFolder
 								
@@ -193,9 +193,9 @@ function Menu {
 
             #Stop running server
             4 {
-                echo "`n"
-				echo "Stop running server selected"
-				echo "`n"
+                Write-Output "`n"
+				Write-Output "Stop running server selected"
+				Write-Output "`n"
 										
 				ServerStop
 										
@@ -206,9 +206,9 @@ function Menu {
 
             #Purge saved login/path info
             5 {
-                echo "`n"
-				echo "Uninstall/Remove saved selected"
-				echo "`n"
+                Write-Output "`n"
+				Write-Output "Uninstall/Remove saved selected"
+				Write-Output "`n"
 												
 				Remove_menu
                 
@@ -217,9 +217,9 @@ function Menu {
 
             #Close script
             6 {
-                echo "`n"
-				echo "Exit selected"
-				echo "`n"
+                Write-Output "`n"
+				Write-Output "Exit selected"
+				Write-Output "`n"
 														
 				exit 0
 
@@ -229,9 +229,9 @@ function Menu {
             #Force user to select one of provided options
             Default {
                 
-                echo "`n"
-				echo "Select number from provided list (1-6)"
-				echo "`n"
+                Write-Output "`n"
+				Write-Output "Select number from provided list (1-6)"
+				Write-Output "`n"
 																
 				Menu
             }
@@ -250,22 +250,22 @@ function SteamCMDFolder {
 			#Check if path was really inserted
 			if ($folder -eq "")
 				{
-					echo "`n"
-					echo "No folder path inserted! Returning to Main menu..."
-					echo "`n"
+					Write-Output "`n"
+					Write-Output "No folder path inserted! Returning to Main menu..."
+					Write-Output "`n"
 					
 					Menu
 				}
 			
-			echo "`n"
-			echo "Selected SteamCMD folder is $folder"
-			echo "`n"
+			Write-Output "`n"
+			Write-Output "Selected SteamCMD folder is $folder"
+			Write-Output "`n"
 			
 			#Create SteamCMD folder if it doesn't exist
 			if (!(Test-Path "$folder"))
 				{
-					echo "Selected SteamCMD folder created"
-					echo "`n"
+					Write-Output "Selected SteamCMD folder created"
+					Write-Output "`n"
 					
 					mkdir "$folder" >$null
 				}
@@ -284,22 +284,22 @@ function SteamCMDFolder {
 					#Save path to SteamCMD folder
 					$folder | Set-Content "$steamDoc"
 					
-					echo "`n"
-					echo "Path saved to $steamDoc"
-					echo "`n"
+					Write-Output "`n"
+					Write-Output "Path saved to $steamDoc"
+					Write-Output "`n"
 				}
 		} else {
 					#Use saved path to SteamCMD folder
 					$script:folder = Get-Content "$steamDoc"
 					
-					echo "Selected SteamCMD folder is $folder"
-					echo "`n"
+					Write-Output "Selected SteamCMD folder is $folder"
+					Write-Output "`n"
 					
 					#Create SteamCMD folder if it doesn't exist
 					if (!(Test-Path "$folder"))
 						{
-							echo "Selected SteamCMD folder created"
-							echo "`n"
+							Write-Output "Selected SteamCMD folder created"
+							Write-Output "`n"
 							
 							mkdir "$folder" >$null
 						}
@@ -312,15 +312,15 @@ function SteamCMDExe {
 	#Check if SteamCMD.exe exist
 	if (!(Test-Path "$folder\steamcmd.exe")) 
 		{
-			echo "`n"
+			Write-Output "`n"
 			#Prompt user to download and install SteamCMD
 			$steamInst = Read-Host -Prompt "'$folder\steamcmd.exe' not found! Do you want to download and install it to previously chosen folder? (yes/no)"
-			echo "`n"
+			Write-Output "`n"
 			
 			if ( ($steamInst -eq "yes") -or ($steamInst -eq "y")) 
 				{ 
-					echo "Downloading and installing SteamCMD..."
-					echo "`n"
+					Write-Output "Downloading and installing SteamCMD..."
+					Write-Output "`n"
 
                     #Get Powershell version for compatibility check
 					$psVer = $PSVersionTable.PSVersion.Major
@@ -328,8 +328,8 @@ function SteamCMDExe {
                     if ($psVer -gt 3) 
 	                    { 
 
-				            echo "Using Powershell version $psVer"
-							echo "`n"
+				            Write-Output "Using Powershell version $psVer"
+							Write-Output "`n"
 
                             #Download SteamCMD
                             $downloadURL = "http://media.steampowered.com/installer/steamcmd.zip"
@@ -350,29 +350,29 @@ function SteamCMDExe {
 						
 						#If Powershell version is under 4
 			            } else { 
-						            echo "`n"
-									echo "Wrong Powershell version $psVer !"
-									echo "`n"
+						            Write-Output "`n"
+									Write-Output "Wrong Powershell version $psVer !"
+									Write-Output "`n"
 					           }
 					
 					#Update SteamCMD to latest version
 					Start-Process -FilePath "$folder\steamcmd.exe" -ArgumentList ('+quit') -Wait -NoNewWindow
 					
-					sleep -Seconds 1 
+					Start-Sleep -Seconds 1 
 					
 					if (Test-Path "$folder\steamcmd.exe") 
 						{
 							#Remove SteamCMD zip file after successful installation
 							Remove-Item -Path "$folder\steamcmd.zip" -Force
 							
-							echo "`n"
-							echo "SteamCMD was successfully installed."
-							echo "`n"
+							Write-Output "`n"
+							Write-Output "SteamCMD was successfully installed."
+							Write-Output "`n"
 							
 						} else {
 									#Throw error if SteamCMD doesn't exist after installation
-									echo "$folder\steamcmd.exe not found!"
-									echo "`n"
+									Write-Output "$folder\steamcmd.exe not found!"
+									Write-Output "`n"
 									
 									pause
 									
@@ -380,8 +380,8 @@ function SteamCMDExe {
 								}
 				} else {
 							#Throw error if SteamCMD doesn't exist and user chose not to install
-							echo "$folder\steamcmd.exe not found!"
-							echo "`n"
+							Write-Output "$folder\steamcmd.exe not found!"
+							Write-Output "`n"
 							
 							pause
 							
@@ -399,10 +399,10 @@ function SteamLogin {
 	#If one or both files don't exist
 	if (!(Test-Path "$steamLog1") -or !(Test-Path "$steamLog2"))
 		{
-			echo "`n"
+			Write-Output "`n"
 			#Prompt user to save Steam login to encrypted file for future use
 			$slogin = Read-Host -Prompt 'Do you want to save Steam login for future use? (yes/no)'
-			echo "`n"
+			Write-Output "`n"
 
 			if ( ($slogin -eq "yes") -or ($slogin -eq "y")) 
 				{ 	
@@ -415,7 +415,7 @@ function SteamLogin {
 					#Save Steam login details to encrypted files
 					#Steam username
 					$steamUs = Read-Host -Prompt 'Insert Steam username'
-					echo "`n"
+					Write-Output "`n"
 					
 					$secureSteamUs = ConvertTo-SecureString -String $steamUs -AsPlainText -Force
 					$secureSteamUs | ConvertFrom-SecureString | Set-Content "$steamLog1"
@@ -426,17 +426,17 @@ function SteamLogin {
 					$secureSteamPw | ConvertFrom-SecureString | Set-Content "$steamLog2"
 					$steamPw = (New-Object PSCredential $userName,$secureSteamPw).GetNetworkCredential().Password
 					
-					echo "`n"
-					echo "Steam login saved to encrypted file"
-					echo "`n"
+					Write-Output "`n"
+					Write-Output "Steam login saved to encrypted file"
+					Write-Output "`n"
 
 				} else {
 							#Log in Steam without save of credentials
 							$steamUs = Read-Host -Prompt 'Insert Steam username'
-							echo "`n"
+							Write-Output "`n"
 
 							$securePw = Read-Host -Prompt 'Insert Steam password' -AsSecureString
-							echo "`n"
+							Write-Output "`n"
 							
 							$steamPw = (New-Object PSCredential $userName,$securePw).GetNetworkCredential().Password
 
@@ -449,8 +449,8 @@ function SteamLogin {
 					$securePw = Get-Content "$steamLog2" | ConvertTo-SecureString
 					$steamPw = (New-Object PSCredential $userName,$securePw).GetNetworkCredential().Password
 					
-					echo "Using stored Steam login credentials"
-					echo "`n"
+					Write-Output "Using stored Steam login credentials"
+					Write-Output "`n"
 						
 				}
 		
@@ -471,20 +471,20 @@ function SteamLogin {
 #Update DayZ server data
 function ServerUpdate {
 	
-	echo "Downloading DayZ server now..."
-	echo "`n"
+	Write-Output "Downloading DayZ server now..."
+	Write-Output "`n"
 
 	#Login to SteamCMD and update DayZ server app
 	Start-Process -FilePath "$folder\steamcmd.exe" -ArgumentList ('+login',$steamUs,$steamPw,'+app_update',$steamApp,' -validate','+quit') -Wait -NoNewWindow
 
-	sleep -Seconds 1 
+	Start-Sleep -Seconds 1 
 	
 	$script:steamUs = $null
 	$script:steamPw = $null
 
-	echo "`n"
-	echo "DayZ server was updated to latest version"
-	echo "`n"
+	Write-Output "`n"
+	Write-Output "DayZ server was updated to latest version"
+	Write-Output "`n"
 	
 }
 
@@ -497,8 +497,8 @@ function ModsUpdate {
 	#Check if DayZ server folder exists
 	if (!(Test-Path "$serverFolder"))
 		{
-			echo "DayZServer folder does not exist! Run server update before mod update."
-			echo "`n"
+			Write-Output "DayZServer folder does not exist! Run server update before mod update."
+			Write-Output "`n"
 			
 		} else {
 	
@@ -511,15 +511,15 @@ function ModsUpdate {
 									#Prompt user to insert path to list of mods
 									$modlist = Read-Host -Prompt 'Insert path to txt file with list of Steam Workshop mods (without quotation marks)'
 
-									echo "`n"
-									echo "Selected list is $modlist"
-									echo "`n"
+									Write-Output "`n"
+									Write-Output "Selected list is $modlist"
+									Write-Output "`n"
 									
 									#Check that list of mods exists
 									if (!(Test-Path "$modlist"))
 										{
-											echo "Can't find $modlist !"
-											echo "`n"
+											Write-Output "Can't find $modlist !"
+											Write-Output "`n"
 											
 											Menu
 										}
@@ -538,8 +538,8 @@ function ModsUpdate {
 											#Save path to list of mods
 											$modlist | Set-Content "$modListPath"
 											
-											echo "Path saved to $modListPath"
-											echo "`n"
+											Write-Output "Path saved to $modListPath"
+											Write-Output "`n"
 										}
 								
 									#Load list of mods from file
@@ -552,15 +552,15 @@ function ModsUpdate {
 									#Prompt user to insert path to list of server mods
 									$serverModList = Read-Host -Prompt 'Insert path to txt file with list of Steam Workshop server mods (without quotation marks)'
 
-									echo "`n"
-									echo "Selected list is $serverModList"
-									echo "`n"
+									Write-Output "`n"
+									Write-Output "Selected list is $serverModList"
+									Write-Output "`n"
 									
 									#Check that list of server mods exists
 									if (!(Test-Path "$serverModList"))
 										{
-											echo "Can't find $serverModList !"
-											echo "`n"
+											Write-Output "Can't find $serverModList !"
+											Write-Output "`n"
 											
 											Menu
 										}
@@ -579,8 +579,8 @@ function ModsUpdate {
 											#Save path to list of server mods
 											$serverModList | Set-Content "$serverModListPath"
 											
-											echo "Path saved to $serverModListPath"
-											echo "`n"
+											Write-Output "Path saved to $serverModListPath"
+											Write-Output "`n"
 										}
 										
 									#Load list of server mods from file
@@ -595,14 +595,14 @@ function ModsUpdate {
 									#Check that lists of mods exists
 									if (!(Test-Path "$modlist"))
 										{
-											echo "Can't find mod list $modlist !"
-											echo "`n"
+											Write-Output "Can't find mod list $modlist !"
+											Write-Output "`n"
 											
 											Menu
 										} elseif (!(Test-Path "$serverModList"))
 												{
-													echo "Can't find server mod list $serverModList !"
-													echo "`n"
+													Write-Output "Can't find server mod list $serverModList !"
+													Write-Output "`n"
 													
 													Menu
 												}
@@ -610,14 +610,14 @@ function ModsUpdate {
 									$script:loadMods = Get-Content "$modlist"
 									$script:loadServerMods = Get-Content "$serverModList"
 											
-									echo "Using stored lists $modlist and $serverModList"
-									echo "`n"
+									Write-Output "Using stored lists $modlist and $serverModList"
+									Write-Output "`n"
 											
 									#Check that at least one mode exists in one of the lists
 									if ((!$loadMods) -and (!$loadServerMods))
 										{
-											echo "Both lists are empty! Add at least one mod to one of the lists!"
-											echo "`n"
+											Write-Output "Both lists are empty! Add at least one mod to one of the lists!"
+											Write-Output "`n"
 													
 											Menu
 										}
@@ -676,24 +676,24 @@ function ModsUpdate {
 						}
 					
 					#List wrong format ids
-					echo "Following mod ids have wrong format!"
-					echo "`n"
-					echo "Mods:"
-					echo $wrongId
-					echo "`n"
-					echo "Server mods:"
-					echo $wrongServerId
-					echo "`n"
+					Write-Output "Following mod ids have wrong format!"
+					Write-Output "`n"
+					Write-Output "Mods:"
+					Write-Output $wrongId
+					Write-Output "`n"
+					Write-Output "Server mods:"
+					Write-Output $wrongServerId
+					Write-Output "`n"
 
 					#List correct format ids
-					echo "Following mod ids will be used for update:"
-					echo "`n"
-					echo "Mods:"
-					echo $mods
-					echo "`n"
-					echo "Server mods:"
-					echo $serverMods
-					echo "`n"
+					Write-Output "Following mod ids will be used for update:"
+					Write-Output "`n"
+					Write-Output "Mods:"
+					Write-Output $mods
+					Write-Output "`n"
+					Write-Output "Server mods:"
+					Write-Output $serverMods
+					Write-Output "`n"
 
 					#Path to SteamCMD DayZ Workshop content folder 
 					$workshopFolder = $folder + '\steamapps\workshop\content\221100' 
@@ -736,13 +736,13 @@ function ModsUpdate {
                             $tempList | Set-Content "$tempModList" -Force
 
 
-                            echo "Starting download of $modCount mods..."
-							echo "`n"
+                            Write-Output "Starting download of $modCount mods..."
+							Write-Output "`n"
 
                             #Login to SteamCMD and download/update selected mods
 							Start-Process -FilePath "$folder\steamcmd.exe" -ArgumentList ('+login',$steamUs,$steamPw,'+runscript ',"$tempModList") -Wait -NoNewWindow 
 									
-							sleep -Seconds 1
+							Start-Sleep -Seconds 1
 
                             Remove-Item -Path "$tempModList" -Force
 
@@ -753,20 +753,26 @@ function ModsUpdate {
 						{ 
 							
 							#Copy mods from workshop folder to DayZ server folder
-                            echo "`n"
-							echo "Copying mods to DayZ server folder..."
-							echo "`n"
-							
-							robocopy "$workshopFolder" "$serverFolder" /E /is /it /np /njs /njh /ns /nc /ndl /nfl
+                            Write-Output "`n"
+							Write-Output "Copying mods to DayZ server folder..."
+							Write-Output "`n"
+
+							#Copy mods from workshop folder to DayZ server folder and rename them to @modename
+							foreach ($mod in $mods)
+								{
+									$modLatinName = (Select-String -Path "$workshopFolder\$mod\meta.cpp" -Pattern "name").ToString()
+									$modLatinName = '@' + ($modLatinName.split('"')[1].Split([IO.Path]::GetInvalidFileNameChars()) -join '_')
+									Copy-Item "$workshopFolder\$mod" -Destination "$serverFolder\$modLatinName"
+								}
 							
 							#Copy mod bikeys from mod keys folders to server keys folder
 							foreach ($mod in $mods)
 								{
-									Copy-Item "$serverFolder\$mod\keys\*.bikey" -Destination "$serverFolder\keys\"
+									Copy-Item "$workshopFolder\$mod\keys\*.bikey" -Destination "$serverFolder\keys\"
 								}
 							
-							echo "Selected mods were copied to DayZ server folder"
-							echo "`n"
+							Write-Output "Selected mods were copied to DayZ server folder"
+							Write-Output "`n"
 							
 							#Check if list of mods for launch parameter exist
 							if (!(Test-Path "$modServerPar"))
@@ -807,13 +813,13 @@ function ModsUpdate {
                             $tempListServer | Set-Content "$tempModListServer" -Force
 
 
-                            echo "Starting download of $serverModCount server mods..."
-							echo "`n"
+                            Write-Output "Starting download of $serverModCount server mods..."
+							Write-Output "`n"
 
 							#Login to SteamCMD and download/update selected server mods
 							Start-Process -FilePath "$folder\steamcmd.exe" -ArgumentList ('+login',$steamUs,$steamPw,'+runscript ',"$tempModListServer") -Wait -NoNewWindow 
 									
-							sleep -Seconds 1 
+							Start-Sleep -Seconds 1 
 
                             Remove-Item -Path "$tempModListServer" -Force
 
@@ -824,9 +830,9 @@ function ModsUpdate {
 						{ 
 							
 							#Copy server mods from workshop folder to DayZ server folder
-                            echo "`n"
-							echo "Copying server mods to DayZ server folder..."
-							echo "`n"
+                            Write-Output "`n"
+							Write-Output "Copying server mods to DayZ server folder..."
+							Write-Output "`n"
 							
 							robocopy "$workshopFolder" "$serverFolder" /E /is /it /np /njs /njh /ns /nc /ndl /nfl
 							
@@ -836,8 +842,8 @@ function ModsUpdate {
 									Copy-Item "$serverFolder\$serverMod\keys\*.bikey" -Destination "$serverFolder\keys\"
 								}
 							
-							echo "Selected server mods were copied to DayZ server folder"
-							echo "`n"
+							Write-Output "Selected server mods were copied to DayZ server folder"
+							Write-Output "`n"
 							
 							#Check if list of server mods for launch parameter exist
 							if (!(Test-Path "$serverModServerPar"))
@@ -890,8 +896,8 @@ function Server_menu {
 	#Check if DayZ server exe exists
 	if (!(Test-Path "$serverFolder"))
 		{
-			echo "DayZServer folder does not exist in $serverFolder ! Run server update to download/repair server data."
-			echo "`n"
+			Write-Output "DayZServer folder does not exist in $serverFolder ! Run server update to download/repair server data."
+			Write-Output "`n"
 			
 		} else {
 	
@@ -899,11 +905,11 @@ function Server_menu {
                         {
                             #Start server menu
                             $null {
-                                        echo "Start server menu:"
-							            echo "1) Use user launch parameters"
-							            echo "2) Use default launch parameters"
-							            echo "3) Return to previous menu"
-							            echo "`n"
+                                        Write-Output "Start server menu:"
+							            Write-Output "1) Use user launch parameters"
+							            Write-Output "2) Use default launch parameters"
+							            Write-Output "3) Return to previous menu"
+							            Write-Output "`n"
 
 							            $select = Read-Host -Prompt 'Please select desired action from menu above'
 
@@ -914,9 +920,9 @@ function Server_menu {
                             
                             #Use user provided server parameters
                             1 {
-                                    echo "`n"
-							        echo "User launch parameters selected"
-							        echo "`n"
+                                    Write-Output "`n"
+							        Write-Output "User launch parameters selected"
+							        Write-Output "`n"
 							
 							        #Check for file with user server launch parameters
 							        if (!(Test-Path "$userServerParPath"))
@@ -924,15 +930,15 @@ function Server_menu {
 									        #Prompt user to insert path to file with user server launch parameters
 									        $serverParPath = Read-Host -Prompt 'Insert path to file with user launch parameters (without quotation marks)'
 
-									        echo "`n"
-									        echo "Selected file is $serverParPath"
-									        echo "`n"
+									        Write-Output "`n"
+									        Write-Output "Selected file is $serverParPath"
+									        Write-Output "`n"
 									
 									        #Check that file with launch parameters exists
 									        if (!(Test-Path "$serverParPath"))
 										        {
-											        echo "Can't find $serverParPath !"
-											        echo "`n"
+											        Write-Output "Can't find $serverParPath !"
+											        Write-Output "`n"
 											
 											        Menu
 										        }
@@ -951,16 +957,16 @@ function Server_menu {
 											        #Save path to file with user server launch parameters
 											        $serverParPath | Set-Content "$userServerParPath"
 											
-											        echo "`n"
-											        echo "Path saved to $userServerParPath"
-											        echo "`n"
+											        Write-Output "`n"
+											        Write-Output "Path saved to $userServerParPath"
+											        Write-Output "`n"
 										        }
 								        } else {
 											        #Use saved path to file with user server launch parameters
 											        $serverParPath = Get-Content "$userServerParPath"
 											
-											        echo "Selected file with user launch parameters is $serverParPath"
-											        echo "`n"
+											        Write-Output "Selected file with user launch parameters is $serverParPath"
+											        Write-Output "`n"
 											
 										        }
 								
@@ -970,8 +976,8 @@ function Server_menu {
 								        #Check if user server launch parameters were properly loaded
 								        if (!$serverPar)
 								        {
-									        echo "Server launch parameter file is empty or wasn't loaded properly!"
-									        echo "`n"
+									        Write-Output "Server launch parameter file is empty or wasn't loaded properly!"
+									        Write-Output "`n"
 									
 									        #Return to Main menu if it wasn't started from CMD			
 									        if (($s -eq "") -and ($server -eq "")) 
@@ -984,8 +990,8 @@ function Server_menu {
 									        exit 0
 								        }
 								
-								        echo "Launching DayZ server with user launch parameters..."
-								        echo "`n"
+								        Write-Output "Launching DayZ server with user launch parameters..."
+								        Write-Output "`n"
 									
 								        #Run server
 								        $procServer = Start-Process -FilePath "$serverFolder\DayZServer_x64.exe" -PassThru -ArgumentList "`"-bepath=$serverFolder\battleye`" $serverPar"
@@ -993,22 +999,22 @@ function Server_menu {
 								        #Save server PID for future use
 								        $procServer.id | Add-Content "$pidServer"
 										
-								        sleep -Seconds 5	
+								        Start-Sleep -Seconds 5	
 										
-								        echo "DayZ server is up and running..."
-								        echo "`n"
+								        Write-Output "DayZ server is up and running..."
+								        Write-Output "`n"
 
                                         Break
                                 }
                             
                             #Use default server parameters
                             2 {
-                                    echo "`n"
-									echo "Default launch parameters selected"
-									echo "`n"
+                                    Write-Output "`n"
+									Write-Output "Default launch parameters selected"
+									Write-Output "`n"
 										
-									echo "Launching DayZ server with default launch parameters..."
-									echo "`n"
+									Write-Output "Launching DayZ server with default launch parameters..."
+									Write-Output "`n"
 
 									#Run server
 									$procServer = Start-Process -FilePath "$serverFolder\DayZServer_x64.exe" -PassThru -ArgumentList "`"-config=$serverFolder\serverDZ.cfg`" `"-mod=$modsServer`" `"-serverMod=$serverModsServer`" `"-bepath=$serverFolder\battleye`" `"-profiles=$serverFolder\logs`" -port=2302 -freezecheck -adminlog -dologs"
@@ -1016,10 +1022,10 @@ function Server_menu {
 									#Save server PID for future use
 									$procServer.id | Add-Content "$pidServer"
 										
-									sleep -Seconds 5	
+									Start-Sleep -Seconds 5	
 										
-									echo "DayZ server is up and running..."
-									echo "`n"
+									Write-Output "DayZ server is up and running..."
+									Write-Output "`n"
 
                                     Break
                                 }
@@ -1033,9 +1039,9 @@ function Server_menu {
                             
                             #Force user to select one of provided options
                             Default {
-                                        echo "`n"
-										echo "Select number from provided list (1-3)"
-										echo "`n"
+                                        Write-Output "`n"
+										Write-Output "Select number from provided list (1-3)"
+										Write-Output "`n"
 															
 										$select = $null
 															
@@ -1054,8 +1060,8 @@ function ServerStop {
 	#Check if PID list is not empty
 	if (!$loadPID)
 		{
-			echo "There is no process ID in list! No DayZ server instance is running or it wasn't started by this script."
-			echo "`n"
+			Write-Output "There is no process ID in list! No DayZ server instance is running or it wasn't started by this script."
+			Write-Output "`n"
 			
 		} else {
 					#Try every process id in list
@@ -1067,31 +1073,31 @@ function ServerStop {
 							#Check for running DayZ server instance
 							if (!$killServer)
 								{
-									echo "DayZ server instance with PID $proc is not running!"
-									echo "`n"
+									Write-Output "DayZ server instance with PID $proc is not running!"
+									Write-Output "`n"
 								
 								#Kill server
 								} else { 
-											echo "DayZ server with PID $proc found, commencing shutdown..."
-											echo "`n"
+											Write-Output "DayZ server with PID $proc found, commencing shutdown..."
+											Write-Output "`n"
 									
 											#Gracefull exit
 											$killServer.CloseMainWindow() >$null
 											
 											#Force exit after five seconds
-											Sleep -Seconds 5
+											Start-Sleep -Seconds 5
 											
 											if (!$killServer.HasExited)
 												{
 													$killServer | Stop-Process -Force
 													
-													echo "DayZ server with PID $proc was forcefully turned off"
-													echo "`n"
+													Write-Output "DayZ server with PID $proc was forcefully turned off"
+													Write-Output "`n"
 													
 												}
 												
-											echo "DayZ server with PID $proc was turned off"
-											echo "`n"
+											Write-Output "DayZ server with PID $proc was turned off"
+											Write-Output "`n"
 											
 										}
 						}
@@ -1104,15 +1110,15 @@ function ServerStop {
 #Uninstall DayZ server
 function ServerUninstall {
 	
-	echo "Uninstalling DayZ server now..."
-	echo "`n"
+	Write-Output "Uninstalling DayZ server now..."
+	Write-Output "`n"
 
     $serverFolder = $folder + $appFolder
 														
 	#Uninstall DayZ server
 	Start-Process -FilePath "$folder\steamcmd.exe" -ArgumentList ('+app_uninstall -complete ',$steamApp,'+quit') -Wait -NoNewWindow 
 																											
-	sleep -Seconds 1
+	Start-Sleep -Seconds 1
     
     #Check if server was deleted and if not removed it forcefully
     if (Test-Path "$serverFolder")
@@ -1122,14 +1128,14 @@ function ServerUninstall {
 	
     if (Test-Path "$serverFolder")
         {   																																				
-	        echo "`n"
-	        echo "DayZ server uninstallation was unsuccessful"
-	        echo "`n"
+	        Write-Output "`n"
+	        Write-Output "DayZ server uninstallation was unsuccessful"
+	        Write-Output "`n"
 
         } else {
-                    echo "`n"
-	                echo "DayZ server was succesfully uninstalled"
-	                echo "`n"
+                    Write-Output "`n"
+	                Write-Output "DayZ server was succesfully uninstalled"
+	                Write-Output "`n"
 
                 }
 }
@@ -1137,16 +1143,16 @@ function ServerUninstall {
 #Uninstall/remove DayZ Server/saved info
 function Remove_menu {
 
-	echo "Remove menu:"
-	echo "1) Remove Steam login"
-	echo "2) Remove path to SteamCMD folder"
-	echo "3) Remove path to mod list file"
-	echo "4) Remove mod"
-	echo "5) Remove path to user launch parameters file"
-	echo "6) Uninstall DayZ server"
-	echo "7) Uninstall SteamCMD"
-	echo "8) Return to previous menu"
-	echo "`n"
+	Write-Output "Remove menu:"
+	Write-Output "1) Remove Steam login"
+	Write-Output "2) Remove path to SteamCMD folder"
+	Write-Output "3) Remove path to mod list file"
+	Write-Output "4) Remove mod"
+	Write-Output "5) Remove path to user launch parameters file"
+	Write-Output "6) Uninstall DayZ server"
+	Write-Output "7) Uninstall SteamCMD"
+	Write-Output "8) Return to previous menu"
+	Write-Output "`n"
 
 	$select = Read-Host -Prompt 'Please select desired action from menu above'
 	
@@ -1154,15 +1160,15 @@ function Remove_menu {
         {
             #Remove encrypted Steam login files
             1 {
-                    echo "`n"
-			        echo "Remove Steam login selected"
-			        echo "`n"
+                    Write-Output "`n"
+			        Write-Output "Remove Steam login selected"
+			        Write-Output "`n"
 			
 			        #Path to encrypted Steam login files
 			        Remove-Item "$docFolder\SteamLog*.txt"
 			
-			        echo "Stored Steam login was removed"
-			        echo "`n"
+			        Write-Output "Stored Steam login was removed"
+			        Write-Output "`n"
 			
 			        Remove_menu
 
@@ -1171,15 +1177,15 @@ function Remove_menu {
 
             #Remove stored path to SteamCMD folder
             2 {
-                    echo "`n"
-					echo "Remove path to SteamCMD folder selected"
-					echo "`n"
+                    Write-Output "`n"
+					Write-Output "Remove path to SteamCMD folder selected"
+					Write-Output "`n"
 						
 					#Path to file with stored path to SteamCMD folder
 					Remove-Item "$docFolder\SteamCmdPath.txt"
 						
-					echo "Stored path to SteamCMD folder was removed"
-					echo "`n"
+					Write-Output "Stored path to SteamCMD folder was removed"
+					Write-Output "`n"
 						
 					Remove_menu
 
@@ -1188,21 +1194,21 @@ function Remove_menu {
 
             #Remove stored path to mod list file
             3 {
-                    echo "`n"
-					echo "Remove path to mod list file selected"
-					echo "`n"
+                    Write-Output "`n"
+					Write-Output "Remove path to mod list file selected"
+					Write-Output "`n"
 								
-					echo "Remove mod list menu:"
-					echo "1) Remove mod list"
-					echo "2) Remove server mod list"
-					echo "3) Remove both mod and server mod lists"
-					echo "4) Return to previous menu"
-					echo "`n"
+					Write-Output "Remove mod list menu:"
+					Write-Output "1) Remove mod list"
+					Write-Output "2) Remove server mod list"
+					Write-Output "3) Remove both mod and server mod lists"
+					Write-Output "4) Return to previous menu"
+					Write-Output "`n"
 								
 					#Prompt user for mod list selection
 					$rem_list = Read-Host -Prompt 'Please select desired action from menu above'
 																
-					echo "`n"	
+					Write-Output "`n"	
 														
 					if ($rem_list -eq '1') 
 						{ 	
@@ -1212,8 +1218,8 @@ function Remove_menu {
 									Remove-Item "$docFolder\modListPath.txt"
 								}
 											
-							echo "Stored path to mod list file was removed"
-							echo "`n"
+							Write-Output "Stored path to mod list file was removed"
+							Write-Output "`n"
 										
 						} elseif ($rem_list -eq '2')
 									{
@@ -1223,8 +1229,8 @@ function Remove_menu {
 											Remove-Item "$docFolder\serverModListPath.txt"
 										}
 													
-										echo "Stored path to server mod list file was removed"
-										echo "`n"
+										Write-Output "Stored path to server mod list file was removed"
+										Write-Output "`n"
 										
 									} elseif ($rem_list -eq '3')
 												{
@@ -1241,8 +1247,8 @@ function Remove_menu {
 															Remove-Item "$docFolder\serverModListPath.txt"
 														}
 																
-													echo "Stored paths to mod and server mod list files were removed"
-													echo "`n"
+													Write-Output "Stored paths to mod and server mod list files were removed"
+													Write-Output "`n"
 																
 												} elseif ($rem_list -eq '4') 
 														{ 
@@ -1260,9 +1266,9 @@ function Remove_menu {
             4 {
                     $reminder = $false
                     
-                    echo "`n"
-					echo "Remove mod selected"
-					echo "`n"
+                    Write-Output "`n"
+					Write-Output "Remove mod selected"
+					Write-Output "`n"
 										
 					SteamCMDFolder
 										
@@ -1278,27 +1284,27 @@ function Remove_menu {
 					#Check if mod id was really inserted
 					if ($rem_mod -eq "")
 						{
-							echo "`n"
-							echo "No mod id inserted! Returning to Remove menu..."
-							echo "`n"
+							Write-Output "`n"
+							Write-Output "No mod id inserted! Returning to Remove menu..."
+							Write-Output "`n"
 												
 							Remove_menu
 						}
 										
-					echo "`n"
+					Write-Output "`n"
 										
 					#Check if selected mod folder exist in workshop folder
 					if (!(Test-Path "$workshopFolder\$rem_mod"))
 						{
-							echo "Selected mod folder doesn't exist in $workshopFolder !"
-							echo "`n"
+							Write-Output "Selected mod folder doesn't exist in $workshopFolder !"
+							Write-Output "`n"
 												
 						} else { 
 									#Remove selected mod folder from workshop folder
 									Remove-Item -LiteralPath "$workshopFolder\$rem_mod" -Force -Recurse
 														
-									echo "Selected mod folder was removed from $workshopFolder"
-									echo "`n"
+									Write-Output "Selected mod folder was removed from $workshopFolder"
+									Write-Output "`n"
 
                                     $reminder = $true
 								}
@@ -1306,15 +1312,15 @@ function Remove_menu {
 					#Check if selected mod folder exist in DayZ server folder
 					if (!(Test-Path "$serverFolder\$rem_mod"))
 						{
-							echo "Selected mod folder doesn't exist in $serverFolder !"
-							echo "`n"
+							Write-Output "Selected mod folder doesn't exist in $serverFolder !"
+							Write-Output "`n"
 												
 						} else { 
 									#Remove selected mod folder from DayZ server folder
 									Remove-Item -LiteralPath "$serverFolder\$rem_mod" -Force -Recurse
 														
-									echo "Selected mod folder was removed from $serverFolder"
-									echo "`n"
+									Write-Output "Selected mod folder was removed from $serverFolder"
+									Write-Output "`n"
 
                                     $reminder =  $true
 								}
@@ -1322,21 +1328,21 @@ function Remove_menu {
 					#Remove selected mod id from mod and server mode lists
 					if (Test-Path "$modServerPar")
 						{
-							$loadModList = Get-Content "$modServerPar" | % {$_ -replace "($rem_mod;)",""}
+							$loadModList = Get-Content "$modServerPar" | ForEach-Object {$_ -replace "($rem_mod;)",""}
 							$loadModList | Set-Content "$modServerPar"
 												
 						} 
 											
 					if (Test-Path "$serverModServerPar")
 						{ 
-							$loadServerModList = Get-Content "$serverModServerPar" | % {$_ -replace "($rem_mod;)",""}
+							$loadServerModList = Get-Content "$serverModServerPar" | ForEach-Object {$_ -replace "($rem_mod;)",""}
 							$loadServerModList | Set-Content "$serverModServerPar"
 						}
 					
 					if ($reminder)		
 						{ 
-							echo "Don't forget to remove $rem_mod also from your list of mods/server mods in case you don't want to use it anymore!"
-							echo "`n"
+							Write-Output "Don't forget to remove $rem_mod also from your list of mods/server mods in case you don't want to use it anymore!"
+							Write-Output "`n"
 						}
 										
 					Remove_menu
@@ -1346,15 +1352,15 @@ function Remove_menu {
 
             #Remove stored path to user launch parameters file
             5 {
-                    echo "`n"
-					echo "Remove path to user launch parameters file selected"
-					echo "`n"
+                    Write-Output "`n"
+					Write-Output "Remove path to user launch parameters file selected"
+					Write-Output "`n"
 								
 					#Path to file with stored path to mod list file
 					Remove-Item "$docFolder\userServerParPath.txt"
 												
-					echo "Stored path to user launch parameters file was removed"
-					echo "`n"
+					Write-Output "Stored path to user launch parameters file was removed"
+					Write-Output "`n"
 												
 					Remove_menu
 
@@ -1363,14 +1369,14 @@ function Remove_menu {
 
             #Uninstall DayZ server
             6 {
-                    echo "`n"
-					echo "Uninstall DayZ server selected"
-					echo "`n"
+                    Write-Output "`n"
+					Write-Output "Uninstall DayZ server selected"
+					Write-Output "`n"
 														
 					#Prompt user for DayZ server uninstall confirmation
 					$rem_server = Read-Host -Prompt 'Are you sure you want to uninstall DayZ server? (yes/no)'
 														
-					echo "`n"	
+					Write-Output "`n"	
 														
 					if ( ($rem_server -eq "yes") -or ($rem_server -eq "y")) 
 						{ 	
@@ -1387,14 +1393,14 @@ function Remove_menu {
 
             #Uninstall SteamCMD
             7 {
-                    echo "`n"
-					echo "Uninstall SteamCMD selected"
-					echo "`n"
+                    Write-Output "`n"
+					Write-Output "Uninstall SteamCMD selected"
+					Write-Output "`n"
 																
 					#Prompt user for SteamCMD uninstall confirmation
 					$rem_server = Read-Host -Prompt 'Are you sure you want to uninstall SteamCMD? This option will also uninstall DayZ server and remove all its data! (yes/no)'
 																
-					echo "`n"	
+					Write-Output "`n"	
 														
 					if ( ($rem_server -eq "yes") -or ($rem_server -eq "y")) 
 						{ 	
@@ -1402,30 +1408,30 @@ function Remove_menu {
 							SteamCMDExe
 							ServerUninstall
 																		
-							echo "Uninstalling SteamCMD now..."
-							echo "`n"
+							Write-Output "Uninstalling SteamCMD now..."
+							Write-Output "`n"
 																		
 							Remove-Item -LiteralPath "$folder" -Force -Recurse
 																		
-							echo "SteamCMD was succesfully uninstalled"
-							echo "`n"
+							Write-Output "SteamCMD was succesfully uninstalled"
+							Write-Output "`n"
 																		
 						}
 																
 					#Prompt user for Documents folder removal confirmation
 					$rem_mod = Read-Host -Prompt 'Do you want to remove Documents folder which contains all saved folder/exe paths, mod and SteamCMD login info from Documents? (yes/no)'
 																
-					echo "`n"	
+					Write-Output "`n"	
 														
 					if ( ($rem_mod -eq "yes") -or ($rem_mod -eq "y")) 
 						{ 	
-							echo "Removing Documents folder now..."
-							echo "`n"
+							Write-Output "Removing Documents folder now..."
+							Write-Output "`n"
 																		
 							Remove-Item -LiteralPath "$docFolder" -Force -Recurse
 																		
-							echo "Folder was succesfully removed"
-							echo "`n"
+							Write-Output "Folder was succesfully removed"
+							Write-Output "`n"
 																		
 						}
 																
@@ -1443,9 +1449,9 @@ function Remove_menu {
 
             #Force user to select one of provided options
             Default {
-                        echo "`n"
-						echo "Select number from provided list (1-7)"
-						echo "`n"
+                        Write-Output "`n"
+						Write-Output "Select number from provided list (1-7)"
+						Write-Output "`n"
 																				
 						Remove_menu
             }
@@ -1462,15 +1468,15 @@ function CMD {
 	$paramCheckUpdate = $false
 	$paramCheckServer = $false
 	
-	echo "`n"
-	echo "Launch parameters are being used."
+	Write-Output "`n"
+	Write-Output "Launch parameters are being used."
 
     #Set Steam app id and server folder name
 	if ($app -eq "exp") 
 		{ 
-            echo "`n"
-			echo "Experimental server management selected"
-			echo "`n"
+            Write-Output "`n"
+			Write-Output "Experimental server management selected"
+			Write-Output "`n"
                     
             #Set Experimental app id
             $steamApp = 1042420
@@ -1480,9 +1486,9 @@ function CMD {
 
         } else {
 
-                    echo "`n"
-			        echo "Stable server management selected"
-			        echo "`n"
+                    Write-Output "`n"
+			        Write-Output "Stable server management selected"
+			        Write-Output "`n"
                     
                     #Set Stable app id
                     $steamApp = 223350
@@ -1495,9 +1501,9 @@ function CMD {
 	#Call server update and related functions
 	if (($u -eq "server") -or ($update -eq "server")) 
 		{ 
-			echo "`n"
-			echo "Server update selected"
-			echo "`n"
+			Write-Output "`n"
+			Write-Output "Server update selected"
+			Write-Output "`n"
 			
 			$select = 1
 			
@@ -1511,9 +1517,9 @@ function CMD {
 			#Call mods update and related functions		
 			} elseif (($u -eq "mod") -or ($u -eq "mods") -or ($update -eq "mod") -or ($update -eq "mods"))
 					{ 
-						echo "`n"
-						echo "Mods update selected"
-						echo "`n"
+						Write-Output "`n"
+						Write-Output "Mods update selected"
+						Write-Output "`n"
 						
 						$select = 2
 						
@@ -1527,9 +1533,9 @@ function CMD {
 						#Call both server and mods updates 
 						} elseif (($u -eq "all") -or ($update -eq "all"))
 								{ 
-									echo "`n"
-									echo "Server + mod update selected"
-									echo "`n"
+									Write-Output "`n"
+									Write-Output "Server + mod update selected"
+									Write-Output "`n"
 									
 									#Server update
 									$select = 1
@@ -1549,7 +1555,7 @@ function CMD {
 	#Start DayZ server							
 	if (($s -eq "start") -or ($server -eq "start")) 
 		{ 
-			echo "`n"
+			Write-Output "`n"
 								
 			SteamCMDFolder
 			
@@ -1559,7 +1565,7 @@ function CMD {
 			#User launch parameters
 			if (($lp -eq "user") -or ($launchParam -eq "user")) 
 				{ 
-					echo "Start server with user launch parameters selected"
+					Write-Output "Start server with user launch parameters selected"
 					
 					$select = 1
 					
@@ -1567,7 +1573,7 @@ function CMD {
 					
 					#Default launch parameters
 					} else {
-								echo "Start server with default launch parameters selected"
+								Write-Output "Start server with default launch parameters selected"
 								
 								$select = 2
 					
@@ -1577,9 +1583,9 @@ function CMD {
 			#Stop running server	
 			} elseif (($s -eq "stop") -or ($server -eq "stop"))
 					{ 	
-						echo "`n"
-						echo "Stop running server selected"
-						echo "`n"
+						Write-Output "`n"
+						Write-Output "Stop running server selected"
+						Write-Output "`n"
 										
 						ServerStop
 						
@@ -1592,23 +1598,23 @@ function CMD {
 		{ 
 			if ((($paramCheckUpdate -eq $false) -and !($u -eq "")) -or (($paramCheckUpdate -eq $false) -and !($update -eq ""))) 
 				{ 
-					echo "`n"
-					echo "Wrong -u/-update parameter value used! Check readme.txt or 'Get-Help .\Server_manager.ps1 -Parameter update' for correct lauch parameter values."
-					echo "`n"
+					Write-Output "`n"
+					Write-Output "Wrong -u/-update parameter value used! Check readme.txt or 'Get-Help .\Server_manager.ps1 -Parameter update' for correct lauch parameter values."
+					Write-Output "`n"
 				}
 				
 			if ((($paramCheckServer -eq $false) -and !($s -eq "")) -or (($paramCheckServer -eq $false) -and !($server -eq ""))) 
 				{ 
-					echo "`n"
-					echo "Wrong -s/-server parameter value used! Check readme.txt or 'Get-Help .\Server_manager.ps1 -Parameter server' for correct lauch parameter values."
-					echo "`n"
+					Write-Output "`n"
+					Write-Output "Wrong -s/-server parameter value used! Check readme.txt or 'Get-Help .\Server_manager.ps1 -Parameter server' for correct lauch parameter values."
+					Write-Output "`n"
 				}
 			
 			exit 0
 		}
 			
-	echo "All selected tasks are done."
-	echo "`n"
+	Write-Output "All selected tasks are done."
+	Write-Output "`n"
 	
 	exit 0
 }
@@ -1617,15 +1623,15 @@ function CMD {
 function MainMenu {
 
 
-		echo "`n"
-		echo "Welcome to DayZ server/mods management app!"
+		Write-Output "`n"
+		Write-Output "Welcome to DayZ server/mods management app!"
 
-        echo "`n"
-	    echo "Menu:"
-	    echo "1) Stable server management"
-	    echo "2) Experimental server management"
-        echo "3) Exit"
-	    echo "`n"
+        Write-Output "`n"
+	    Write-Output "Menu:"
+	    Write-Output "1) Stable server management"
+	    Write-Output "2) Experimental server management"
+        Write-Output "3) Exit"
+	    Write-Output "`n"
 
 	    $select = Read-Host -Prompt 'Please select desired action from menu above'
 	
@@ -1633,9 +1639,9 @@ function MainMenu {
             {
                 #Steam Stable server app
                 1 {
-                    echo "`n"
-			        echo "Stable server app selected"
-			        echo "`n"
+                    Write-Output "`n"
+			        Write-Output "Stable server app selected"
+			        Write-Output "`n"
                     
                     #Set Stable app id
                     $steamApp = 223350
@@ -1650,9 +1656,9 @@ function MainMenu {
 
                 #Steam Experimental server app
                 2 {
-                    echo "`n"
-				    echo "Experimental server app selected"
-				    echo "`n"
+                    Write-Output "`n"
+				    Write-Output "Experimental server app selected"
+				    Write-Output "`n"
                     
                     #Set Experimental app id
                     $steamApp = 1042420
@@ -1667,9 +1673,9 @@ function MainMenu {
 
                 #Close script
                 3 {
-                    echo "`n"
-				    echo "Exit selected"
-				    echo "`n"
+                    Write-Output "`n"
+				    Write-Output "Exit selected"
+				    Write-Output "`n"
 														
 				    exit 0
 
@@ -1678,9 +1684,9 @@ function MainMenu {
 
                 #Force user to select one of provided options
                 Default {
-                            echo "`n"
-						    echo "Select number from provided list (1-3)"
-						    echo "`n"
+                            Write-Output "`n"
+						    Write-Output "Select number from provided list (1-3)"
+						    Write-Output "`n"
 																				
 						    MainMenu
                 }
@@ -1699,157 +1705,3 @@ if (($u -eq "") -and ($update -eq "") -and ($s -eq "") -and ($server -eq ""))
             }
 
 exit 0
-# SIG # Begin signature block
-# MIIcZwYJKoZIhvcNAQcCoIIcWDCCHFQCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
-# gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUJGaUFA3dh1nuwSV6iEEgPK1Z
-# yQOggheRMIIE8TCCA9mgAwIBAgIQPLyHe5m6GFiJpDaKnGk42TANBgkqhkiG9w0B
-# AQsFADB/MQswCQYDVQQGEwJVUzEdMBsGA1UEChMUU3ltYW50ZWMgQ29ycG9yYXRp
-# b24xHzAdBgNVBAsTFlN5bWFudGVjIFRydXN0IE5ldHdvcmsxMDAuBgNVBAMTJ1N5
-# bWFudGVjIENsYXNzIDMgU0hBMjU2IENvZGUgU2lnbmluZyBDQTAeFw0xOTA0MzAw
-# MDAwMDBaFw0yMjA1MDcyMzU5NTlaMIGIMQswCQYDVQQGEwJDWjEZMBcGA1UECAwQ
-# U3RyZWRvY2Vza3kga3JhajEYMBYGA1UEBwwPTW5pc2VrIHBvZCBCcmR5MSEwHwYD
-# VQQKDBhCT0hFTUlBIElOVEVSQUNUSVZFIGEucy4xITAfBgNVBAMMGEJPSEVNSUEg
-# SU5URVJBQ1RJVkUgYS5zLjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
-# ALnwscZ1gIwHNKD5OAfX/6HYpkh1lfaqYiDuomVQji5IvD0dsPqdiCN9+4AuI7wF
-# og05Qp/dFpvEmF6E0WiP+nw6dt7wnoQ4tipZKkHSw7SJkp4zlQxAqvMGwd5x6RMP
-# cLjEKA8CEadG1dM3+x7Evm27QxbEwGYSE45Qz0DBYDQoD9njyvA83DQGXpbxR69K
-# vFRW8xcTFnVshYvLRx9EurrakweWYtIv1DGFfZKwqpx+DYHemztGVAlQWDo8yCcq
-# 6wIOU8xi4NMsYpiIgGxUhG1nriS2DKXPRcVpldF0lJdfh7lSS+Wb4L/JQAqt47pD
-# DmD1AjHc6FGpDFzsBnrfjP0CAwEAAaOCAV0wggFZMAkGA1UdEwQCMAAwDgYDVR0P
-# AQH/BAQDAgeAMCsGA1UdHwQkMCIwIKAeoByGGmh0dHA6Ly9zdi5zeW1jYi5jb20v
-# c3YuY3JsMGEGA1UdIARaMFgwVgYGZ4EMAQQBMEwwIwYIKwYBBQUHAgEWF2h0dHBz
-# Oi8vZC5zeW1jYi5jb20vY3BzMCUGCCsGAQUFBwICMBkMF2h0dHBzOi8vZC5zeW1j
-# Yi5jb20vcnBhMBMGA1UdJQQMMAoGCCsGAQUFBwMDMFcGCCsGAQUFBwEBBEswSTAf
-# BggrBgEFBQcwAYYTaHR0cDovL3N2LnN5bWNkLmNvbTAmBggrBgEFBQcwAoYaaHR0
-# cDovL3N2LnN5bWNiLmNvbS9zdi5jcnQwHwYDVR0jBBgwFoAUljtT8Hkzl699g+8u
-# K8zKt4YecmYwHQYDVR0OBBYEFMa2/MDoNhLIzM6lAKuSUC9oHzgZMA0GCSqGSIb3
-# DQEBCwUAA4IBAQBf2J8DPInPPgYsJgtd8S20hrsO2HAdJHBX5UwPwp0XdL2X25G2
-# 50qdUgmWYHnPa0nmVW7q+oRJ9rJFKar2uQlbnBA2hh2tatG8EjPJGT7Si2IEy5aP
-# QO/eStKX5sNxufChKfEgF4TUAWch/yJkJH6JX2QNWKaWtZvxyYQefqjFwO7xY90e
-# dcDkIWEUfWkUGEJiT5T5HlS4VLXPzd6pc2sUn2LGq5be3SU/HTsZ/5gWFG1XQoMD
-# lUoXGks9q5TjqO8mrWZcEEq3TBTZEFyYkVBN2kaSCN8EBcetZIsv8Q9AtBYBbsHn
-# 8yYsWSfU6ZfbHQsdnBE4/GFppwPb+5G8d8m6MIIFWTCCBEGgAwIBAgIQPXjX+XZJ
-# YLJhffTwHsqGKjANBgkqhkiG9w0BAQsFADCByjELMAkGA1UEBhMCVVMxFzAVBgNV
-# BAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQLExZWZXJpU2lnbiBUcnVzdCBOZXR3
-# b3JrMTowOAYDVQQLEzEoYykgMjAwNiBWZXJpU2lnbiwgSW5jLiAtIEZvciBhdXRo
-# b3JpemVkIHVzZSBvbmx5MUUwQwYDVQQDEzxWZXJpU2lnbiBDbGFzcyAzIFB1Ymxp
-# YyBQcmltYXJ5IENlcnRpZmljYXRpb24gQXV0aG9yaXR5IC0gRzUwHhcNMTMxMjEw
-# MDAwMDAwWhcNMjMxMjA5MjM1OTU5WjB/MQswCQYDVQQGEwJVUzEdMBsGA1UEChMU
-# U3ltYW50ZWMgQ29ycG9yYXRpb24xHzAdBgNVBAsTFlN5bWFudGVjIFRydXN0IE5l
-# dHdvcmsxMDAuBgNVBAMTJ1N5bWFudGVjIENsYXNzIDMgU0hBMjU2IENvZGUgU2ln
-# bmluZyBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJeDHgAWryyx
-# 0gjE12iTUWAecfbiR7TbWE0jYmq0v1obUfejDRh3aLvYNqsvIVDanvPnXydOC8KX
-# yAlwk6naXA1OpA2RoLTsFM6RclQuzqPbROlSGz9BPMpK5KrA6DmrU8wh0MzPf5vm
-# wsxYaoIV7j02zxzFlwckjvF7vjEtPW7ctZlCn0thlV8ccO4XfduL5WGJeMdoG68R
-# eBqYrsRVR1PZszLWoQ5GQMWXkorRU6eZW4U1V9Pqk2JhIArHMHckEU1ig7a6e2iC
-# Me5lyt/51Y2yNdyMK29qclxghJzyDJRewFZSAEjM0/ilfd4v1xPkOKiE1Ua4E4bC
-# G53qWjjdm9sCAwEAAaOCAYMwggF/MC8GCCsGAQUFBwEBBCMwITAfBggrBgEFBQcw
-# AYYTaHR0cDovL3MyLnN5bWNiLmNvbTASBgNVHRMBAf8ECDAGAQH/AgEAMGwGA1Ud
-# IARlMGMwYQYLYIZIAYb4RQEHFwMwUjAmBggrBgEFBQcCARYaaHR0cDovL3d3dy5z
-# eW1hdXRoLmNvbS9jcHMwKAYIKwYBBQUHAgIwHBoaaHR0cDovL3d3dy5zeW1hdXRo
-# LmNvbS9ycGEwMAYDVR0fBCkwJzAloCOgIYYfaHR0cDovL3MxLnN5bWNiLmNvbS9w
-# Y2EzLWc1LmNybDAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwMwDgYDVR0P
-# AQH/BAQDAgEGMCkGA1UdEQQiMCCkHjAcMRowGAYDVQQDExFTeW1hbnRlY1BLSS0x
-# LTU2NzAdBgNVHQ4EFgQUljtT8Hkzl699g+8uK8zKt4YecmYwHwYDVR0jBBgwFoAU
-# f9Nlp8Ld7LvwMAnzQzn6Aq8zMTMwDQYJKoZIhvcNAQELBQADggEBABOFGh5pqTf3
-# oL2kr34dYVP+nYxeDKZ1HngXI9397BoDVTn7cZXHZVqnjjDSRFph23Bv2iEFwi5z
-# uknx0ZP+XcnNXgPgiZ4/dB7X9ziLqdbPuzUvM1ioklbRyE07guZ5hBb8KLCxR/Md
-# oj7uh9mmf6RWpT+thC4p3ny8qKqjPQQB6rqTog5QIikXTIfkOhFf1qQliZsFay+0
-# yQFMJ3sLrBkFIqBgFT/ayftNTI/7cmd3/SeUx7o1DohJ/o39KK9KEr0Ns5cF3kQM
-# Ffo2KwPcwVAB8aERXRTl4r0nS1S+K4ReD6bDdAUK75fDiSKxH3fzvc1D1PFMqT+1
-# i4SvZPLQFCEwggZqMIIFUqADAgECAhADAZoCOv9YsWvW1ermF/BmMA0GCSqGSIb3
-# DQEBBQUAMGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAX
-# BgNVBAsTEHd3dy5kaWdpY2VydC5jb20xITAfBgNVBAMTGERpZ2lDZXJ0IEFzc3Vy
-# ZWQgSUQgQ0EtMTAeFw0xNDEwMjIwMDAwMDBaFw0yNDEwMjIwMDAwMDBaMEcxCzAJ
-# BgNVBAYTAlVTMREwDwYDVQQKEwhEaWdpQ2VydDElMCMGA1UEAxMcRGlnaUNlcnQg
-# VGltZXN0YW1wIFJlc3BvbmRlcjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
-# ggEBAKNkXfx8s+CCNeDg9sYq5kl1O8xu4FOpnx9kWeZ8a39rjJ1V+JLjntVaY1sC
-# SVDZg85vZu7dy4XpX6X51Id0iEQ7Gcnl9ZGfxhQ5rCTqqEsskYnMXij0ZLZQt/US
-# s3OWCmejvmGfrvP9Enh1DqZbFP1FI46GRFV9GIYFjFWHeUhG98oOjafeTl/iqLYt
-# WQJhiGFyGGi5uHzu5uc0LzF3gTAfuzYBje8n4/ea8EwxZI3j6/oZh6h+z+yMDDZb
-# esF6uHjHyQYuRhDIjegEYNu8c3T6Ttj+qkDxss5wRoPp2kChWTrZFQlXmVYwk/PJ
-# YczQCMxr7GJCkawCwO+k8IkRj3cCAwEAAaOCAzUwggMxMA4GA1UdDwEB/wQEAwIH
-# gDAMBgNVHRMBAf8EAjAAMBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMIMIIBvwYDVR0g
-# BIIBtjCCAbIwggGhBglghkgBhv1sBwEwggGSMCgGCCsGAQUFBwIBFhxodHRwczov
-# L3d3dy5kaWdpY2VydC5jb20vQ1BTMIIBZAYIKwYBBQUHAgIwggFWHoIBUgBBAG4A
-# eQAgAHUAcwBlACAAbwBmACAAdABoAGkAcwAgAEMAZQByAHQAaQBmAGkAYwBhAHQA
-# ZQAgAGMAbwBuAHMAdABpAHQAdQB0AGUAcwAgAGEAYwBjAGUAcAB0AGEAbgBjAGUA
-# IABvAGYAIAB0AGgAZQAgAEQAaQBnAGkAQwBlAHIAdAAgAEMAUAAvAEMAUABTACAA
-# YQBuAGQAIAB0AGgAZQAgAFIAZQBsAHkAaQBuAGcAIABQAGEAcgB0AHkAIABBAGcA
-# cgBlAGUAbQBlAG4AdAAgAHcAaABpAGMAaAAgAGwAaQBtAGkAdAAgAGwAaQBhAGIA
-# aQBsAGkAdAB5ACAAYQBuAGQAIABhAHIAZQAgAGkAbgBjAG8AcgBwAG8AcgBhAHQA
-# ZQBkACAAaABlAHIAZQBpAG4AIABiAHkAIAByAGUAZgBlAHIAZQBuAGMAZQAuMAsG
-# CWCGSAGG/WwDFTAfBgNVHSMEGDAWgBQVABIrE5iymQftHt+ivlcNK2cCzTAdBgNV
-# HQ4EFgQUYVpNJLZJMp1KKnkag0v0HonByn0wfQYDVR0fBHYwdDA4oDagNIYyaHR0
-# cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEQ0EtMS5jcmww
-# OKA2oDSGMmh0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJ
-# RENBLTEuY3JsMHcGCCsGAQUFBwEBBGswaTAkBggrBgEFBQcwAYYYaHR0cDovL29j
-# c3AuZGlnaWNlcnQuY29tMEEGCCsGAQUFBzAChjVodHRwOi8vY2FjZXJ0cy5kaWdp
-# Y2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURDQS0xLmNydDANBgkqhkiG9w0BAQUF
-# AAOCAQEAnSV+GzNNsiaBXJuGziMgD4CH5Yj//7HUaiwx7ToXGXEXzakbvFoWOQCd
-# 42yE5FpA+94GAYw3+puxnSR+/iCkV61bt5qwYCbqaVchXTQvH3Gwg5QZBWs1kBCg
-# e5fH9j/n4hFBpr1i2fAnPTgdKG86Ugnw7HBi02JLsOBzppLA044x2C/jbRcTBu7k
-# A7YUq/OPQ6dxnSHdFMoVXZJB2vkPgdGZdA0mxA5/G7X1oPHGdwYoFenYk+VVFvC7
-# Cqsc21xIJ2bIo4sKHOWV2q7ELlmgYd3a822iYemKC23sEhi991VUQAOSK2vCUcIK
-# SK+w1G7g9BQKOhvjjz3Kr2qNe9zYRDCCBs0wggW1oAMCAQICEAb9+QOWA63qAArr
-# Pye7uhswDQYJKoZIhvcNAQEFBQAwZTELMAkGA1UEBhMCVVMxFTATBgNVBAoTDERp
-# Z2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2ljZXJ0LmNvbTEkMCIGA1UEAxMb
-# RGlnaUNlcnQgQXNzdXJlZCBJRCBSb290IENBMB4XDTA2MTExMDAwMDAwMFoXDTIx
-# MTExMDAwMDAwMFowYjELMAkGA1UEBhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IElu
-# YzEZMBcGA1UECxMQd3d3LmRpZ2ljZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQg
-# QXNzdXJlZCBJRCBDQS0xMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
-# 6IItmfnKwkKVpYBzQHDSnlZUXKnE0kEGj8kz/E1FkVyBn+0snPgWWd+etSQVwpi5
-# tHdJ3InECtqvy15r7a2wcTHrzzpADEZNk+yLejYIA6sMNP4YSYL+x8cxSIB8HqIP
-# kg5QycaH6zY/2DDD/6b3+6LNb3Mj/qxWBZDwMiEWicZwiPkFl32jx0PdAug7Pe2x
-# QaPtP77blUjE7h6z8rwMK5nQxl0SQoHhg26Ccz8mSxSQrllmCsSNvtLOBq6thG9I
-# hJtPQLnxTPKvmPv2zkBdXPao8S+v7Iki8msYZbHBc63X8djPHgp0XEK4aH631XcK
-# J1Z8D2KkPzIUYJX9BwSiCQIDAQABo4IDejCCA3YwDgYDVR0PAQH/BAQDAgGGMDsG
-# A1UdJQQ0MDIGCCsGAQUFBwMBBggrBgEFBQcDAgYIKwYBBQUHAwMGCCsGAQUFBwME
-# BggrBgEFBQcDCDCCAdIGA1UdIASCAckwggHFMIIBtAYKYIZIAYb9bAABBDCCAaQw
-# OgYIKwYBBQUHAgEWLmh0dHA6Ly93d3cuZGlnaWNlcnQuY29tL3NzbC1jcHMtcmVw
-# b3NpdG9yeS5odG0wggFkBggrBgEFBQcCAjCCAVYeggFSAEEAbgB5ACAAdQBzAGUA
-# IABvAGYAIAB0AGgAaQBzACAAQwBlAHIAdABpAGYAaQBjAGEAdABlACAAYwBvAG4A
-# cwB0AGkAdAB1AHQAZQBzACAAYQBjAGMAZQBwAHQAYQBuAGMAZQAgAG8AZgAgAHQA
-# aABlACAARABpAGcAaQBDAGUAcgB0ACAAQwBQAC8AQwBQAFMAIABhAG4AZAAgAHQA
-# aABlACAAUgBlAGwAeQBpAG4AZwAgAFAAYQByAHQAeQAgAEEAZwByAGUAZQBtAGUA
-# bgB0ACAAdwBoAGkAYwBoACAAbABpAG0AaQB0ACAAbABpAGEAYgBpAGwAaQB0AHkA
-# IABhAG4AZAAgAGEAcgBlACAAaQBuAGMAbwByAHAAbwByAGEAdABlAGQAIABoAGUA
-# cgBlAGkAbgAgAGIAeQAgAHIAZQBmAGUAcgBlAG4AYwBlAC4wCwYJYIZIAYb9bAMV
-# MBIGA1UdEwEB/wQIMAYBAf8CAQAweQYIKwYBBQUHAQEEbTBrMCQGCCsGAQUFBzAB
-# hhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYBBQUHMAKGN2h0dHA6Ly9j
-# YWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RDQS5jcnQw
-# gYEGA1UdHwR6MHgwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-# Q2VydEFzc3VyZWRJRFJvb3RDQS5jcmwwOqA4oDaGNGh0dHA6Ly9jcmw0LmRpZ2lj
-# ZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RDQS5jcmwwHQYDVR0OBBYEFBUA
-# EisTmLKZB+0e36K+Vw0rZwLNMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6enIZ3z
-# bcgPMA0GCSqGSIb3DQEBBQUAA4IBAQBGUD7Jtygkpzgdtlspr1LPUukxR6tWXHvV
-# DQtBs+/sdR90OPKyXGGinJXDUOSCuSPRujqGcq04eKx1XRcXNHJHhZRW0eu7NoR3
-# zCSl8wQZVann4+erYs37iy2QwsDStZS9Xk+xBdIOPRqpFFumhjFiqKgz5Js5p8T1
-# zh14dpQlc+Qqq8+cdkvtX8JLFuRLcEwAiR78xXm8TBJX/l/hHrwCXaj++wc4Tw3G
-# XZG5D2dFzdaD7eeSDY2xaYxP+1ngIw/Sqq4AfO6cQg7PkdcntxbuD8O9fAqg7iwI
-# VYUiuOsYGk38KiGtSTGDR5V3cdyxG0tLHBCcdxTBnU8vWpUIKRAmMYIEQDCCBDwC
-# AQEwgZMwfzELMAkGA1UEBhMCVVMxHTAbBgNVBAoTFFN5bWFudGVjIENvcnBvcmF0
-# aW9uMR8wHQYDVQQLExZTeW1hbnRlYyBUcnVzdCBOZXR3b3JrMTAwLgYDVQQDEydT
-# eW1hbnRlYyBDbGFzcyAzIFNIQTI1NiBDb2RlIFNpZ25pbmcgQ0ECEDy8h3uZuhhY
-# iaQ2ipxpONkwCQYFKw4DAhoFAKBwMBAGCisGAQQBgjcCAQwxAjAAMBkGCSqGSIb3
-# DQEJAzEMBgorBgEEAYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEV
-# MCMGCSqGSIb3DQEJBDEWBBTa+6rb6zq4va07MPoV2/88kByOvTANBgkqhkiG9w0B
-# AQEFAASCAQALP+N/tqR0/Qw451i4fsXK/Cr+XcuRTqivAnlfJbHvZI11NSxwQ03X
-# KY2qu60+wg0Gfl/ZwwAznN1IUFUyBObCmmFoF7lxABUOnT7/mlKQCPQ4JPFlI1kK
-# 1F6DhsS9LAIAsci1IClXszVfWFCZ/1JYvh3aRF+dN5s04jqXOqpInSTOskbyB6ad
-# 1u9EessQSZJFqJolkookkIov8xhxcF7UOH/FZfzKhDnJvITS7x4cbH01CAuvAdCO
-# WenI8WeZVLJHajWnrZ9V1JJda2BQoWbDf6I9LOsavGy/s6MiopjUg4RvS72D8L0N
-# msDnj3u7ydVYfJ+67pPW/zGyd++wsG4RoYICDzCCAgsGCSqGSIb3DQEJBjGCAfww
-# ggH4AgEBMHYwYjELMAkGA1UEBhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZ
-# MBcGA1UECxMQd3d3LmRpZ2ljZXJ0LmNvbTEhMB8GA1UEAxMYRGlnaUNlcnQgQXNz
-# dXJlZCBJRCBDQS0xAhADAZoCOv9YsWvW1ermF/BmMAkGBSsOAwIaBQCgXTAYBgkq
-# hkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMDAzMjYxMjA0
-# MzVaMCMGCSqGSIb3DQEJBDEWBBRF8BlvtZC95yC6p4E/UqSASV633zANBgkqhkiG
-# 9w0BAQEFAASCAQAo8I30sVb5ntMYgCRot1euFD41ojwoESSRh85mxXK3Oj+vREpb
-# ZxD2OgDnvwFlxzgsQrENSg+bIveT8w4boW/Owt3b/kOmuqb9I6DwK4RQOlYYp56z
-# zA0YkwS03lA5sZKxvsvsWJwX4ZBdpzibwRs6RX4cJvgPJgD0yfVwWwxyKUqAdggx
-# lWpGyzUrk43QbfbLamlJ0yro/iud5fbNps0F3b3e+nzqkn4NFz0JdqwevnPMXXXN
-# UbJ0g5+qJZdKBwjgPqSlDECThZHeapzKNMVof9yx+H3gd4IiE9Awg8JvCvJ+e0Y3
-# jptZrzTzeVAv7ukQhZjhqD9IFtgNXOXot49/
-# SIG # End signature block
