@@ -109,7 +109,7 @@ $select = $null
 
 #Prepare variables related to user Documents folder
 $userName = $env:USERNAME
-$docFolder = 'C:\Users\' + $userName + '\Downloads\DayZ_standalone\DayZ_Server'
+$docFolder = 'C:\Users\' + $userName + '\Downloads\dayz-server-manager'
 $steamDoc = $docFolder + '\SteamCmdPath.txt'
 $modListPath = $docFolder + '\modListPath.txt'
 $serverModListPath = $docFolder + '\serverModListPath.txt'
