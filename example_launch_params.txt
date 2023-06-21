@@ -1,0 +1,1 @@
+-config=serverDZ.cfg "-mod=" "-serverMod=" "-profiles=some_where" -port=2302 -freezecheck -adminlog -dologs
