@@ -761,7 +761,7 @@ function ModsUpdate {
 							foreach ($mod in $mods)
 								{
 									$modLatinName = (Select-String -Path "$workshopFolder\$mod\meta.cpp" -Pattern "name").ToString()
-									$modLatinName = '@' + ($modLatinName.split('"')[1].Split([IO.Path]::GetInvalidFileNameChars()) -join '_')
+									$modLatinName = '@' + ($modLatinName.split('"')[1].Split([IO.Path]::GetInvalidFileNameChars()) -join '-')
 									Copy-Item "$workshopFolder\$mod" -Destination "$serverFolder\$modLatinName" -Recurse
 								}
 							
@@ -838,7 +838,7 @@ function ModsUpdate {
 							foreach ($serverMod in $serverMods)
 								{
 									$modLatinName = (Select-String -Path "$workshopFolder\$mod\meta.cpp" -Pattern "name").ToString()
-									$modLatinName = '@' + ($modLatinName.split('"')[1].Split([IO.Path]::GetInvalidFileNameChars()) -join '_')
+									$modLatinName = '@' + ($modLatinName.split('"')[1].Split([IO.Path]::GetInvalidFileNameChars()) -join '-')
 									Copy-Item "$workshopFolder\$mod" -Destination "$serverFolder\$modLatinName" -Recurse
 								}
 
