@@ -762,7 +762,7 @@ function ModsUpdate {
 								{
 									$modLatinName = (Select-String -Path "$workshopFolder\$mod\meta.cpp" -Pattern "name").ToString()
 									$modLatinName = '@' + ($modLatinName.split('"')[1].Split([IO.Path]::GetInvalidFileNameChars()) -join '_')
-									Copy-Item "$workshopFolder\$mod" -Destination "$serverFolder\$modLatinName"
+									Copy-Item "$workshopFolder\$mod" -Destination "$serverFolder\$modLatinName" -Recurse
 								}
 							
 							#Copy mod bikeys from mod keys folders to server keys folder
@@ -834,8 +834,14 @@ function ModsUpdate {
 							Write-Output "Copying server mods to DayZ server folder..."
 							Write-Output "`n"
 							
-							robocopy "$workshopFolder" "$serverFolder" /E /is /it /np /njs /njh /ns /nc /ndl /nfl
-							
+							#Copy server mods from workshop folder to DayZ server folder and rename them to @modename
+							foreach ($serverMod in $serverMods)
+								{
+									$modLatinName = (Select-String -Path "$workshopFolder\$mod\meta.cpp" -Pattern "name").ToString()
+									$modLatinName = '@' + ($modLatinName.split('"')[1].Split([IO.Path]::GetInvalidFileNameChars()) -join '_')
+									Copy-Item "$workshopFolder\$mod" -Destination "$serverFolder\$modLatinName" -Recurse
+								}
+
 							#Copy mod bikeys from mod keys folders to server keys folder
 							foreach ($serverMod in $serverMods)
 								{
