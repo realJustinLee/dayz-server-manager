@@ -712,6 +712,9 @@ function ModsUpdate {
                     $tempList = $null
                     $tempListServer = $null
 					
+					#Remove all loaded mods first
+					Remove-Item -Path "$serverFolder\@*" --Force
+
 					#Download mods from the list
 					if ($loadMods)
 						{
